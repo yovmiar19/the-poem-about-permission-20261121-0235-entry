@@ -13,5 +13,13 @@ const poem = [
   "and the yes was always yours.",
 ].join("\n");
 
+// The gate: /output/entry.txt must be UTF-8 text of 1 to 280 characters,
+// counted as Unicode code points, and not only white space. Refuse to
+// write anything that would fail it rather than submit an invalid entry.
+const codePoints = [...poem].length;
+if (codePoints < 1 || codePoints > 280 || poem.trim().length === 0) {
+  throw new Error(`poem is ${codePoints} code points; gate needs 1-280`);
+}
+
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", poem + "\n", "utf8");
